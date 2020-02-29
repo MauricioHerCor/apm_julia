@@ -1,0 +1,46 @@
+using NLsolve
+using ForwardDiff
+
+function cstr(states,fun)
+(ca,cb,cc,cd,ce)=states
+ra=-k*ca*(cb^3)*(cc^2)
+rb=3*ra
+rc=2*ra
+rd=-2*ra
+re=-3*ra
+
+resca=(qaf*caf-q*ca)/v+ra
+rescb=(qbf*cbf-q*cb)/v+rb
+rescc=(qcf*ccf-q*cc)/v+rc
+rescd=(qdf*cdf-q*cd)/v+rd
+resce=(qef*cef-q*ce)/v+re
+fun[1]=resca
+fun[2]=rescb
+fun[3]=rescc
+fun[4]=rescd
+fun[5]=resce
+end
+
+qaf=800
+qbf=600
+qcf=600
+qdf=0
+qef=0
+caf=85.0
+cbf=90.0
+ccf=65.0
+cdf=0.0
+cef=0.0
+v=10000
+k=1
+
+q=qaf+qbf+qcf+qdf+qef
+cainit=caf
+cbinit=cbf
+ccinit=ccf
+cdinit=cdf
+ceinit=cef
+cinit=[cainit,cbinit,ccinit,cdinit,ceinit]
+
+(roots)=nlsolve(cstr,cinit,autodiff=true)
+roots.zero
